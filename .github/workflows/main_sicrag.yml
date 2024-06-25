@@ -2,7 +2,7 @@
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 # More info on Python, GitHub Actions, and Azure App Service: https://aka.ms/python-webapps-actions
 
-name: Build and deploy Python app to Azure Web App - sicragweb
+name: Build and deploy Python app to Azure Web App - sicrag
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v1
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Create and start virtual environment
         run: |
@@ -65,14 +65,14 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_9D9B3DAC9ED5478892E4C4E70F75AC32 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_6DA20E7B6783465F8A95F5AB0459DA99 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1B881E6F5B1D4A0AA7E8FB828A62297B }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_22187149820A422580C9A742C970F999 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A8C8F198735744D98593CB909EFEC456 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F6A4E00043C94FB6A9ABBE22F81D4E3F }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
-          app-name: 'sicragweb'
+          app-name: 'sicrag'
           slot-name: 'Production'
           
