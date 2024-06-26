@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask,request, render_template, jsonify
 
 import os
 
@@ -24,18 +24,39 @@ def text_to_vector(text):
 
 
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def rag_home():
     
     print('Enters rag_home')
 
-    
+    if request.method == "GET":
+
+        return render_template('index.html')
+
+
+    # data = request.get_json()
+
+    # print('The post data is ' , data)
+
+    # # Assuming the parameter is named 'parameter'
+    # if 'query_term' in data:
+    #     query_value = data['query_term']
+    #     # Here you can process param_value as needed
+    #     # For example, you could return it in a JSON response
+    #     # return jsonify({'message': 'Received parameter', 'parameter': query_value}), 200
+    # else:
+    #     return jsonify({'error': 'Parameter not found in request'}), 400
+
+        
+
+
     # Database connection details
     DB_USER = os.getenv("SIC_DB_USER")
     DB_PASS = os.getenv("SIC_DB_PASS")
     DB_HOST = os.getenv("SIC_DB_HOST")
     DB_PORT = 5432
     DB_NAME = "postgres"
+
 
     conn = psycopg2.connect(
         dbname=DB_NAME,
@@ -47,10 +68,12 @@ def rag_home():
 
     cur = conn.cursor()
 
-    
+    query_value = request.form['query_term']
 
+    if query_value == None:
+        return jsonify({'error': 'Parameter not found in request'}), 400
 
-    query = "旅費規程 "
+    query = query_value
 
     query_vector = text_to_vector(query)
 

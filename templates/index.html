@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Simple Flask Form Example</title>
+</head>
+<body>
+    <h1>Simple Flask Form Example</h1>
+    <form method="POST">
+        <label for="query_term">Enter Query Term:</label>
+        <input type="text" id="query_term" name="query_term" required>
+        <button type="submit">Submit</button>
+    </form>
+    
+    {% if query_term %}
+    <h2>Result:</h2>
+    <p>You entered: {{ query_term }}</p>
+    {% endif %}
+</body>
+</html>
