@@ -1,19 +1,30 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Simple Flask Form Example</title>
+    <title>SICRAG</title>
 </head>
 <body>
-    <h1>Simple Flask Form Example</h1>
+    <h1>SICRAG</h1>
     <form method="POST">
-        <label for="query_term">Enter Query Term:</label>
+        <label for="query_term">Query:</label>
         <input type="text" id="query_term" name="query_term" required>
-        <button type="submit">Submit</button>
+        <button type="submit">検索</button>
     </form>
     
-    {% if query_term %}
-    <h2>Result:</h2>
-    <p>You entered: {{ query_term }}</p>
+    <hr>
+
+    {% if data %}
+    <div class="container">
+        
+        <h3>{{ data.query }}</h3>
+        <br><br>
+        <p> 1 {{data.first_document}} = {{data.first_document_distance}}</p>
+        <p> 2 {{data.second_document}} = {{data.second_document_distance}}</p>
+        <p> 3 {{data.third_document}} = {{data.third_document_distance}}</p>
+        
+    </div>
+    
     {% endif %}
+
 </body>
 </html>

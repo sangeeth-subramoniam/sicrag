@@ -101,7 +101,7 @@ def rag_home():
 
     response_text = "the Result is {} ".format(result)
 
-    return jsonify(message=response_text)
+    return jsonify(message=result[0][2])
 
 
 @app.route('/robots933456.txt')
@@ -111,4 +111,3 @@ def health_check():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0' , port='80', debug=True)
-
