@@ -27,7 +27,7 @@ def text_to_vector(text):
 @app.route('/', methods=['GET','POST'])
 def rag_home():
     
-    print('Enters rag_home')
+    # print('Enters rag_home')
 
     if request.method == "GET":
 
@@ -90,18 +90,23 @@ def rag_home():
     # result = cur.fetchone()
     result = cur.fetchall()
     # print(' **************** /n /n ' , type(result) , result[0][1])
-    print(f"一番位置するドキュメントは: {result[0][1]}, Distance: {result[0][3]}")
-    print(f"二番位置するドキュメントは: {result[1][1]}, Distance: {result[1][3]}")
-    print(f"三番位置するドキュメントは: {result[2][1]}, Distance: {result[2][3]}")
+    # print(f"一番位置するドキュメントは: {result[0][1]}, Distance: {result[0][3]}")
+    # print(f"二番位置するドキュメントは: {result[1][1]}, Distance: {result[1][3]}")
+    # print(f"三番位置するドキュメントは: {result[2][1]}, Distance: {result[2][3]}")
     # print(f"Document Content: {result[1]}")
 
     # Close connection
     cur.close()
     conn.close()
 
-    response_text = "the Result is {} ".format(result)
+    # response_text = "the Result is {} ".format(result)
 
-    return jsonify(message=result[0][2])
+    response_text = {
+        'document_title' : result[0][1],
+        'document_content' : result[0][2]
+    }
+
+    return jsonify(message=response_text)
 
 
 @app.route('/robots933456.txt')
