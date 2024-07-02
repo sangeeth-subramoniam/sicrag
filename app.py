@@ -48,6 +48,8 @@ def rag_home():
     #     return jsonify({'error': 'Parameter not found in request'}), 400
 
         
+@app.route('/rag_post', methods=['POST'])
+def rag_post():
 
 
     # Database connection details
@@ -69,11 +71,13 @@ def rag_home():
     cur = conn.cursor()
 
     query_value = request.form['query_term']
+    dept_value = request.form['dept']
 
-    if query_value == None:
+    if query_value == None or dept_value == None:
         return jsonify({'error': 'Parameter not found in request'}), 400
 
     query = query_value
+    post_department = dept_value
 
     query_vector = text_to_vector(query)
 
@@ -84,9 +88,10 @@ def rag_home():
     search_query = """
         SELECT id, filename, content, vector <-> %s::vector AS distance
         FROM rag_vector_db
+        WHERE department = %s
         ORDER BY distance
     """
-    cur.execute(search_query, (query_vector_list,))
+    cur.execute(search_query, (query_vector_list, post_department))
     # result = cur.fetchone()
     result = cur.fetchall()
     # print(' **************** /n /n ' , type(result) , result[0][1])

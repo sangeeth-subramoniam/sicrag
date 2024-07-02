@@ -5,7 +5,12 @@
 </head>
 <body>
     <h1>SICRAG</h1>
-    <form method="POST">
+    <form method="POST" action="/rag_post">
+
+        <label for="dept">Dept:</label>
+        <input type="text" id="dept" name="dept" required>
+
+
         <label for="query_term">Query:</label>
         <input type="text" id="query_term" name="query_term" required>
         <button type="submit">検索</button>
