@@ -86,9 +86,10 @@ def rag_post():
 
     # Find the most similar document
     search_query = """
-        SELECT id, filename, content, vector <-> %s::vector AS distance
-        FROM rag_vector_db
-        WHERE department = %s
+        SELECT t1.id, t2.filename, t2.content, t2.vector <-> %s::vector AS distance
+        FROM rag_vector_tag_db t1
+        JOIN rag_vector_db t2 ON t1.id = t2.id
+        WHERE t1.tag = %s
         ORDER BY distance
     """
     cur.execute(search_query, (query_vector_list, post_department))
