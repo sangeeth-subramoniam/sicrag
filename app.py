@@ -71,13 +71,13 @@ def rag_post():
     cur = conn.cursor()
 
     query_value = request.form['query_term']
-    dept_value = request.form['dept']
+    tag_value = request.form['tag']
 
-    if query_value == None or dept_value == None:
+    if query_value == None or tag_value == None:
         return jsonify({'error': 'Parameter not found in request'}), 400
 
     query = query_value
-    post_department = dept_value
+    post_tag = tag_value
 
     query_vector = text_to_vector(query)
 
@@ -92,9 +92,15 @@ def rag_post():
         WHERE t1.tag = %s
         ORDER BY distance
     """
-    cur.execute(search_query, (query_vector_list, post_department))
+    cur.execute(search_query, (query_vector_list, post_tag))
     # result = cur.fetchone()
     result = cur.fetchall()
+
+    # print('result is ' , result , ' and len is ' , len(result))
+
+    if len(result) == 0:
+        return jsonify(message="There is no documents matching the tag or the content")
+
     # print(' **************** /n /n ' , type(result) , result[0][1])
     # print(f"一番位置するドキュメントは: {result[0][1]}, Distance: {result[0][3]}")
     # print(f"二番位置するドキュメントは: {result[1][1]}, Distance: {result[1][3]}")
