@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1 class="admin_header">SICRAG FILE UPLOAD</h1>
+
+    <div class="container">
+
+        <div class="jumbotron admin_document_upload_jumbotron" >
+
+            <h5>タッグ : {{context.tag_name}}</h5>
+
+            <br>
+
+            <form method="post" enctype="multipart/form-data">
+
+                <input type="text" name="tag_name" id="tag_name" value="{{context.tag_name}}" hidden>
+
+                
+                <select name="tag_documents_dropdown" class="form-control" multiple required>
+                
+                    {% for id,filenames in context.tag_document_list %}
+                        <option value="{{id}}">{{filenames}}</option>
+                    {% endfor %}
+    
+                </select>
+
+                <br>
+
+                <button type="submit" class="btn btn-danger" onclick="return confirm('削除します。宜しいですか？');"> 削除 </button>
+                <a href="{{ url_for ('rag_admin') }}"><button type="button" class="btn btn-primary"> 戻る </button></a>
+
+
+            </form>
+
+            <br>
+
+            <p>
+                ⁂ 選択したファイル名はタグから削除されます
+            </p>
+
+            <br>
+
+            <p class="faded_text multiple_options_hint">
+                ⁂ Windowsの場合: コントロール (ctrl) ボタンを押したままにして複数のオプションを選択します
+                <br>
+                ⁂ Macの場合: コマンド ボタンを押したままにして複数のオプションを選択します
+            </p>
+
+        </div>
+    </div>
+
+
+{% endblock %}

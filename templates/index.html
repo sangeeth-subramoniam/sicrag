@@ -1,9 +1,5 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <title>SICRAG</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block body %}
     <h1>SICRAG</h1>
     <form method="POST" action="/rag_post">
 
@@ -31,5 +27,4 @@
     
     {% endif %}
 
-</body>
-</html>
+{% endblock %}

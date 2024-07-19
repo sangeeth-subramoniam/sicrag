@@ -1,0 +1,97 @@
+.admin_header{
+    margin: 1.5vh 0px;
+    text-align: center;
+}
+
+.admin_document_jumbotron,.admin_tags_jumbotron{
+    max-height: 40vh;
+    overflow-y: scroll;
+    padding: 1.5vh 50px;
+    margin-top: 2.5vh;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.admin_document_container,.admin_tags_container{
+    text-align: left;
+}
+
+
+.admin_gpt_page_button{
+    width: 10%;
+    margin-left: 85%;
+}
+
+/* FILE UPLOAD */
+
+
+
+
+
+/* Tag Upload */
+
+.multiple_options_hint{
+    margin-top: 1vh;
+    font-size: small;
+}
+
+
+/* GPTSCHEMA */
+
+.schema_copy_button_container{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
+.schema_copy_button{
+    margin-left: 10px;
+}
+
+
+/* Common */
+
+.faded_text{
+    color: gray;
+}
+
+
+.delete_icon_container{
+    background-color: orange;
+    width: 100%;
+    text-align: center;
+}
+
+.delete_icon_text{
+    background-color: #cc3300;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+
+.edit_icon_text{
+    background-color: #ffcc00;
+    color: black;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 4px;
+}
+
+.edit_icon_text:hover{
+    color: black;
+    text-decoration: none;
+}
+
+.delete_icon_text:hover, .edit_icon:hover{
+    transform: scale(1.2);
+}
+
+pre {
+    background-color: #f4f4f4; /* Light grey background */
+    border: 1px solid #ccc;   /* Grey border */
+    padding: 10px;            /* Some padding */
+    overflow-x: auto;         /* Horizontal scrolling if needed */
+    font-family: monospace;   /* Monospace font for code */
+}

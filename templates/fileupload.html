@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1 class="admin_header">SICRAG FILE UPLOAD</h1>
+
+    <div class="container">
+
+        <div class="jumbotron admin_document_upload_jumbotron" >
+
+            <form action="{{ url_for ('file_upload') }}" method="post" enctype="multipart/form-data">
+
+                <input type="file" class="form-control" name="file" accept=".pdf">
+
+                <br>
+
+                <input type="submit" class="form-control" value="Upload">
+
+
+            </form>
+
+        </div>
+    </div>
+
+
+{% endblock %}

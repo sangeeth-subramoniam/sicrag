@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1 class="admin_header">SICRAG FILE UPLOAD</h1>
+
+    <div class="container">
+
+        <div class="jumbotron admin_document_upload_jumbotron" >
+
+            <form action="{{ url_for ('tag_upload') }}" method="post" enctype="multipart/form-data">
+
+                <input type="text" placeholder="タッグ名" class="form-control" name="tagname" required>
+
+                <br>
+
+                <select name="all_documents_dropdown" class="form-control" multiple>
+                    {% for id,filenames in context.result %}
+                        <option value="{{id}}">{{filenames}}</option>
+                    {% endfor %}
+                </select>
+                <p class="faded_text multiple_options_hint">
+                    ⁂ Windowsの場合: コントロール (ctrl) ボタンを押したままにして複数のオプションを選択します
+                    <br>
+                    ⁂ Macの場合: コマンド ボタンを押したままにして複数のオプションを選択します
+                </p>
+                <br>
+
+                <input type="submit" class="form-control" value="Upload">
+
+
+            </form>
+
+        </div>
+    </div>
+
+
+{% endblock %}

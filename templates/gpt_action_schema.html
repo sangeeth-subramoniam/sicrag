@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<h1 class="admin_header">SICRAG FILE UPLOAD</h1>
+
+    <div class="container">
+
+      <br>
+
+      <p class="gpt_instructions" id="gpt_instructions">
+        <b>GPT Instructions:</b>
+        <br>
+        This GPT functions as a Retrieval Augmented Generation (RAG) model. It leverages knowledge vector data retrieved from APIs to provide detailed and accurate answers to user queries. It is designed to handle a broad range of topics by accessing external databases to enrich its responses. It never answers from general knowledge but only with the data that is sent back as the data response from the API. Get the query term from the user and send it as POST data to the API and display the response that is being sent. With the Page content response recieved , answer the question asked. If you cannot find appropriate answer in the document, Do mention that the question you searched has no reference in the document instead of answering out of general knowledge. In the end of the answer make sure to mention the reference with the document name recieved in the response.
+      </p>
+
+      <hr>
+
+      <b>アクションスキーマ：</b>
+
+      <p class="faded_text">
+
+        ⁂ タグのデフォルト(default)属性にタグ名を入力してください
+    
+      </p>
+      
+      <br>
+
+
+      <div class="schema_copy_button_container">
+
+        <button class="btn btn-primary schema_copy_button" id="schema_copy_button" >コーピ</button>
+        <a href="{{ url_for('rag_admin') }}"><button class="btn btn-primary schema_copy_button" id="schema_copy_button" >戻る</button></a>
+
+      </div>
+      
+      <br>
+
+
+      <pre id="gpt_schema">
+
+        {
+          "openapi": "3.1.0",
+          "info": {
+            "title": "検索API",
+            "version": "1.0.0"
+          },
+          "servers": [
+            {
+              "url": "https://sicrag.azurewebsites.net/"
+            }
+          ],
+          "paths": {
+            "/rag_post": {
+              "post": {
+                "summary": "ユーザーの検索用語を送信してデータを取得します",
+                "operationId": "sendSearchTerm",
+                "requestBody": {
+                  "required": true,
+                  "content": {
+                    "application/x-www-form-urlencoded": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "query_term": {
+                            "type": "string",
+                            "description": "検索するためのキーワード"
+                          },
+                          "tag": {
+                            "type": "string",
+                            "default": "「タッグ名を入力してください」",
+                            "description": "部門名 ('タグ名' が固定値)"
+                          }
+                        },
+                        "required": [
+                          "query_term",
+                          "tag"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "responses": {
+                  "200": {
+                    "description": "検索結果",
+                    "content": {
+                      "application/json": {
+                        "schema": {
+                          "type": "object",
+                          "properties": {
+                            "title": {
+                              "type": "string",
+                              "description": "ドキュメントのタイトル"
+                            },
+                            "page_content": {
+                              "type": "string",
+                              "description": "ドキュメントの本文"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+
+      </pre>
+        
+    </div>
+
+
+    <script>
+
+        document.getElementById('schema_copy_button').addEventListener('click', function() {
+            const preElement = document.getElementById('gpt_schema');
+            const range = document.createRange();
+            range.selectNodeContents(preElement);
+            
+            const selection = window.getSelection();
+            selection.removeAllRanges(); // Clear current selections
+            selection.addRange(range); // Select the content
+
+            // Copy to clipboard
+            if (document.execCommand('copy')) {
+                alert('コーピしました！');
+            } else {
+                alert('コーピは失敗しました！');
+            }
+
+            selection.removeAllRanges(); // Deselect
+        });
+
+    </script>
+
+  {% endblock %}
+ 

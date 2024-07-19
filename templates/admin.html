@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block body %}
+    <h1 class="admin_header">SIC RAG 管理 </h1>
+
+    <a href="{{ url_for ('gpt_schema') }}"> <button class="btn btn-primary admin_gpt_page_button"> GPT スキーマ </button> </a>
+
+    <div class="container">
+
+        <h4 class="admin_document_container">ドキュメント <a href="{{ url_for ('file_upload')  }}">+</a> </h4>
+
+        <div class="jumbotron admin_document_jumbotron" >
+
+            <table class="table">
+
+                <tr>
+                    <th style="text-align: center;">ID</td>
+                    <th style="text-align: center;">ファイル名</td>
+                </tr>
+
+                {% for id,filename in context.result %}
+                    <tr>
+                        <td style="white-space: nowrap; text-align: center;" >{{id}}</td>
+                        <td style="text-align: center;">{{filename}}</td>
+                        <td class="delete_icon" style="white-space: nowrap; text-align: center;"> <a href="{{ url_for('file_delete', file_id=id) }}" class="delete_icon_text" onclick="return confirm('削除します。宜しいですか？');"> 削除 </a> </td>                        
+                    </tr>
+                {% endfor %}
+
+            </table>
+
+
+        </div>
+
+
+        <div>
+
+
+            <h4 class="admin_tags_container">タッグ <a href="{{ url_for ('tag_upload')  }}">+</a></h4>
+
+            <div class="jumbotron admin_tags_jumbotron">
+
+                <table class="table">
+
+                    <tr>
+                        <th style="text-align: center;">タッグ</td>
+                        <th style="text-align: center;">ファイル</td>
+                    </tr>
+
+                    {% for tag_name,tag_filename in context.tags %}
+
+                        <tr>
+                            <td style="white-space: nowrap; text-align: center;">{{tag_name}}</td>
+                            <td style="text-align: center;">{{tag_filename}}</td>
+                            <td class="edit_icon" style="white-space: nowrap; text-align: center;"> <a href="{{ url_for ('tag_update', tag_name=tag_name)  }}" class="edit_icon_text"> 更新 </a> </td>
+                        </tr>
+
+                    {% endfor %}
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+{% endblock %}
