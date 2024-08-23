@@ -20,7 +20,7 @@
                 <select name="tag_documents_dropdown" class="form-control" multiple required>
                 
                     {% for id,filenames in context.tag_document_list %}
-                        <option value="{{id}}">{{filenames}}</option>
+                        <option value="{{filenames}}">{{filenames}}</option>
                     {% endfor %}
     
                 </select>
@@ -32,13 +32,11 @@
 
 
             </form>
-
             <br>
 
             <p>
                 ⁂ 選択したファイル名はタグから削除されます
             </p>
-
             <br>
 
             <p class="faded_text multiple_options_hint">

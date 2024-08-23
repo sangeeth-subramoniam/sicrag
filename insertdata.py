@@ -9,6 +9,7 @@ DB_HOST = os.getenv("SIC_DB_HOST")
 DB_PORT = 5432
 DB_NAME = "postgres"
 
+
 conn = psycopg2.connect(
     dbname=DB_NAME,
     user=DB_USER,
@@ -17,9 +18,11 @@ conn = psycopg2.connect(
     port=DB_PORT
 )
 
+tablename = "rag_db"
+file_table_name = "rag_file_db"
+tag_table_name = "rag_tag_db"
 
-
-def insert_document(document_filename,document_text):
+def insert_document(document_parent_filename,document_filename,filename_extension,document_text):
 
     from transformers import AutoTokenizer, AutoModel
     import torch
@@ -48,14 +51,14 @@ def insert_document(document_filename,document_text):
 
 
 
-    def insert_data(conn, document_text, document_vector, document_filename):
+    def insert_data(conn, document_parent_filename, document_filename, filename_extension, document_text, document_vector):
         # Insert document into the table
-        insert_query = """
-            INSERT INTO rag_vector_db (content, vector, filename)
-            VALUES (%s, %s::vector, %s)
+        insert_query = f"""
+            INSERT INTO {tablename} (parent_filename,filename,file_extension,content,vector)
+            VALUES (%s, %s, %s, %s, %s::vector)
         """
         with conn.cursor() as cur:
-            cur.execute(insert_query, (document_text, document_vector.tolist(), document_filename))
+            cur.execute(insert_query, (document_parent_filename, document_filename,filename_extension, document_text, document_vector.tolist()))
             conn.commit()
 
         print('Inserted successfully')
@@ -77,24 +80,66 @@ def insert_document(document_filename,document_text):
 
     document_vector = text_to_vector(document_text)
 
-    insert_data(conn, document_text, document_vector, document_filename)
+    insert_data(conn, document_parent_filename, document_filename, filename_extension, document_text, document_vector)
 
     print('Insert done')
 
 
+def insert_parent_chunk_to_file_db(filename, current_chunk_filename_list):
 
-def delete_document(document_file_id):
+    print(f'Enters parent Chunk to file db with filename {filename} and current chunk filename {current_chunk_filename_list}')
     
-    print('Enters delete document in function' , document_file_id)
 
-    delete_query = """
-        DELETE FROM rag_vector_db
-        WHERE id = %s;
+
+    insert_parent_chunk_to_file_db_query = f"""
+        INSERT INTO {file_table_name} (parent_filename,chunk_file_list)
+        VALUES (%s, %s)
     """
     with conn.cursor() as cur:
-        cur.execute(delete_query, (document_file_id,))
+        cur.execute(insert_parent_chunk_to_file_db_query, (filename, current_chunk_filename_list))
         conn.commit()
 
-    print('Deleted {} successfully'.format(document_file_id))
+    print('insert_parent_chunk_to_file_db successful')
+
+    return "insert_parent_chunk_to_file_db DONE"
+
+
+
+def delete_document(document_file_name):
+    
+    print('Enters delete document in function' , document_file_name)
+
+    delete_query = f"""
+        DELETE FROM {tablename}
+        WHERE parent_filename = %s;
+    """
+
+    with conn.cursor() as cur:
+
+        cur.execute(delete_query, (document_file_name,))
+        conn.commit()
+
+    print('Deleted {} successfully'.format(document_file_name))
+
+
+def delete_parent_chunk_to_file_db(parent_document_file_name):
+
+    print('Enters delete parent_chunk_document_file_name in function' , parent_document_file_name)
+
+    delete_parent_chunk_to_file_db_query = f"""
+        DELETE FROM {file_table_name}
+        WHERE parent_filename = %s;
+    """
+
+    with conn.cursor() as cur:
+
+        cur.execute(delete_parent_chunk_to_file_db_query, (parent_document_file_name,))
+        conn.commit()
+
+    print('Deleted {} successfully'.format(parent_document_file_name))
+
+
+
+
 
 

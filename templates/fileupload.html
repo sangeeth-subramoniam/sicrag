@@ -6,21 +6,59 @@
 
     <div class="container">
 
+        <br>
+
         <div class="jumbotron admin_document_upload_jumbotron" >
+            
 
             <form action="{{ url_for ('file_upload') }}" method="post" enctype="multipart/form-data">
 
-                <input type="file" class="form-control" name="file" accept=".pdf">
+                <input type="file" class="form-control" id="file_upload_form_file" name="file" accept=".pdf">
 
                 <br>
 
-                <input type="submit" class="form-control" value="Upload">
+                <input type="submit" id="file_upload_form_submit_button" class="form-control" value="Upload" hidden>
+                <button type="button" class="btn btn-primary file_upload_submit_button" onclick="submit_form();">登録</button>
 
 
             </form>
 
+            <br>
+
+
+            <div class="d-flex justify-content-center" >
+                <div class="spinner-border" id="file_upload_spinner_div" role="status" style="display: none;">
+                  <span class="sr-only">Loading...</span>
+                </div>
+
+            </div>
+
         </div>
     </div>
+
+
+    <script>
+
+        function submit_form(){
+
+            file_upload_form_submit_button = document.getElementById('file_upload_form_submit_button')
+
+            if( document.getElementById("file_upload_form_file").files.length == 0 ){
+                alert("ファイルを選択してください");
+                file_upload_form_submit_button.click()
+            }else{
+                spinner_div = document.getElementById('file_upload_spinner_div');
+
+                spinner_div.style.display = 'block';
+                file_upload_form_submit_button.click()
+            }
+            
+
+        };
+
+
+
+    </script>
 
 
 {% endblock %}

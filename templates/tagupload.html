@@ -15,8 +15,8 @@
                 <br>
 
                 <select name="all_documents_dropdown" class="form-control" multiple>
-                    {% for id,filenames in context.result %}
-                        <option value="{{id}}">{{filenames}}</option>
+                    {% for filenames in context.result %}
+                        <option value="{{filenames[0]}}">{{filenames[0]}}</option>
                     {% endfor %}
                 </select>
                 <p class="faded_text multiple_options_hint">
