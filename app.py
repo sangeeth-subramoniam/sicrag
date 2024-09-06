@@ -245,7 +245,7 @@ def rag_admin():
 
 
 
-def split_text_into_chunks(text, chunk_size=5000):
+def split_text_into_chunks(text, chunk_size=500):
     # Split the text into sentences
     
     # Remove unwanted spaces
